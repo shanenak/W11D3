@@ -1,9 +1,13 @@
 import CartItem from './CartItem';
 import './Cart.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearCart } from '../../store/cart';
 
 function Cart() {
-  const cart = {};
-  const produce = {};
+  const cart = useSelector(state=>state.cart);
+  const produce = useSelector(state=>state.produce);
+  
+  const dispatch = useDispatch();
 
   const cartItems = Object.values(cart)
     .map(item => {
@@ -18,9 +22,11 @@ function Cart() {
       No items in the cart. Start selecting items to purchase.
     </div>
   );
-
+  
+  
   const onSubmit = (e) => {
     e.preventDefault();
+    dispatch(clearCart());
     window.alert(
       "Purchased the following:\n" +
       `${cartItems.map(item => `${item.count} of ${item.name}`).join('\n')}`
